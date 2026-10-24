@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">AppLexsa</string>
+    <string name="service_name">AppLexsa • Forward pilihan</string>
+    <string name="service_description">Membaca layar WhatsApp dan mengetuk teruskan, penerima, serta kirim hanya setelah Anda menekan tombol. Isi layar diproses di HP. Aktifkan hanya jika Anda menyetujui akses ini.</string>
+    <string name="home">Beranda</string>
+    <string name="settings">Pengaturan tujuan</string>
+    <string name="diagnostics">Diagnostik</string>
+    <string name="accessibility">Buka pengaturan Accessibility</string>
+    <string name="enable">Aktifkan tombol</string>
+    <string name="disable">Nonaktifkan</string>
+    <string name="bind_channel">Ikat saluran dari WhatsApp</string>
+    <string name="bind_contact">Konfirmasi kontak dari pemilih WhatsApp</string>
+    <string name="calibrate">Kalibrasi ikon teruskan</string>
+    <string name="reset">Reset blokir postingan</string>
+    <string name="export">Ekspor diagnosis tersamarkan</string>
+    <string name="open_wa">Buka WhatsApp</string>
+    <string name="inspect">Periksa struktur layar WhatsApp</string>
+    <string name="guide">Pasang APK uji dari GitHub Actions. Buka Info aplikasi → menu → Izinkan setelan terbatas jika Android memintanya, lalu aktifkan AppLexsa di Accessibility. Nama menu berbeda menurut produsen.\n\nIkat saluran, lalu pilih SATU kontak di layar “Teruskan ke…” dan konfirmasikan lewat tombol AppLexsa. Penyiapan tidak menekan kirim.\n\nBuka ujung saluran, pastikan postingan terakhir lengkap, lalu tekan tombol melayang. Satu tekanan = satu forward. Kecepatan jaringan tetap memengaruhi pengiriman.</string>
+</resources>
