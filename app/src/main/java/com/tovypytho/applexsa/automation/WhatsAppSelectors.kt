@@ -47,17 +47,19 @@ object WhatsAppSelectors {
                 .all { list.box.contains(it.box) }
             val atBottom = list != null && !list.scrollForward && complete
             val post = row?.takeIf { complete }?.let {
-                // View/reaction counters and accessibility descriptions may change after viewing.
-                // Identity only uses stable text; descriptions remain useful for finding actions.
-                val labels = it.all().map { n -> normalized(n.text) }.filter { label ->
-                    label.isNotBlank() && !label.matches(Regex("\\d+")) &&
-                        !label.matches(Regex("[\\d.,]+ (?:tayangan|dilihat|views?|reaksi|reactions?)"))
-                }.joinToString("|")
+                // Never use counters, reaction nodes, tree shape, paths or coordinates as identity.
+                // Without a WhatsApp message ID, indistinguishable same-minute posts must collide
+                // conservatively rather than allowing a resend after the UI changes.
+                val timestamps = it.all().filter { n -> n.children.isEmpty() }.flatMap { n ->
+                    time.findAll(normalized(n.text)).map { match -> match.value.trim() }.toList()
+                }.distinct().sorted()
+                val captions = it.all().filter { n -> n.idIs("caption", "message_text", "message_caption", "text_message") }
+                    .map { n -> normalized(n.text) }.filter { s -> s.isNotBlank() }.distinct()
                 // Visible preceding rows change as the viewport moves. Do not use their count or
                 // screen coordinates as identity: that would allow a duplicate on a changed viewport.
                 // Indistinguishable same-minute posts collide conservatively and need manual reset.
-                val identity = digest("$title|$labels|${it.all().map { n -> n.id.substringAfterLast('/') }}")
-                val hasIdentity = time.containsMatchIn(labels)
+                val identity = digest("$title|$timestamps|$captions")
+                val hasIdentity = timestamps.isNotEmpty()
                 val forward = it.all().filter { n -> n.isForward() }.singleOrNull()
                 val layout = digest("$width|$height|${it.box}|${it.all().map { n -> n.id + n.className + n.box }}")
                 if (!hasIdentity) null else Post(identity, forward?.path, it.box, layout)

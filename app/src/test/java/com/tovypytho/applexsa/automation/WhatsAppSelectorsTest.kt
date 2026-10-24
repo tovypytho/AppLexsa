@@ -43,6 +43,14 @@ class WhatsAppSelectorsTest {
         }
         assertEquals(withCounter("1").post?.identity, withCounter("2").post?.identity)
     }
+    @Test fun addedReactionAndAggregatedViewCountDoNotUnblockSamePost() {
+        val original = row("0/2/0", "11.31 1 tayangan", 100)
+        val changed = row("0/2/0", "11.31 20 tayangan", 100).let {
+            it.copy(children = it.children + node("0/2/0/4", "3 reaksi", "com.whatsapp:id/reaction"))
+        }
+        fun read(post: UiNode) = WhatsAppSelectors.read(channel(listOf(post)), 500, 1000, "com.whatsapp")
+        assertEquals(read(original).post?.identity, read(changed).post?.identity)
+    }
     @Test fun clippedLastPostIsRejected() {
         val screen = WhatsAppSelectors.read(channel(listOf(row("0/2/0", "11.31", 800))), 500, 1000, "com.whatsapp")
         assertFalse(screen.atBottom); assertNull(screen.post)

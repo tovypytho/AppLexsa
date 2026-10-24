@@ -118,6 +118,11 @@ class LexsaService : AccessibilityService() {
         return WhatsAppSelectors.read(tree, bounds.width(), bounds.height(), pkg)
     }
     private suspend fun refresh() {
+        if (!profile.enabled && setup == SetupMode.NONE && !engine.busy) {
+            overlay.destroy()
+            finishRecord()
+            return
+        }
         val screen = read()
         if (setup != SetupMode.NONE && SystemClock.elapsedRealtime() >= setupDeadline) {
             setup = SetupMode.NONE; calibrationScreen = null; overlay.destroy()
