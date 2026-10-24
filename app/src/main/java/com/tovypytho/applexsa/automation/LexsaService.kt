@@ -135,7 +135,14 @@ class LexsaService : AccessibilityService() {
             engine.observe(screen)?.let { execute(it) }
             finishRecord()
         }
-        if (calibrationScreen != null) return
+        calibrationScreen?.let { original ->
+            if (screen.kind != ScreenKind.SOURCE || screen.channel != original.channel || screen.post != original.post ||
+                screen.width != original.width || screen.height != original.height) {
+                overlay.dismissCalibration(); calibrationScreen = null; setup = SetupMode.NONE
+                toast("Kalibrasi dibatalkan karena layar berubah.")
+            }
+            return
+        }
         when (setup) {
             SetupMode.CHANNEL -> if (screen.kind == ScreenKind.SOURCE) overlay.show("Ikat saluran ini") else overlay.hide()
             SetupMode.CONTACT -> if (screen.kind == ScreenKind.PICKER) overlay.show("Konfirmasi tujuan") else overlay.hide()
