@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root" android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="20dp">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/app_name" android:textSize="30sp" android:textStyle="bold" android:textColor="#07594F" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+        <Button android:id="@+id/homeTab" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/home" />
+        <Button android:id="@+id/settingsTab" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/settings" />
+        <Button android:id="@+id/diagnosticsTab" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/diagnostics" />
+    </LinearLayout>
+    <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:fillViewport="true">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+            <LinearLayout android:id="@+id/homePage" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+                <TextView android:id="@+id/status" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="18sp" android:paddingTop="20dp" android:paddingBottom="16dp" />
+                <Button android:id="@+id/accessibility" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/accessibility" />
+                <Button android:id="@+id/enable" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/enable" />
+                <Button android:id="@+id/openWa" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/open_wa" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/guide" android:paddingTop="20dp" android:textSize="16sp" />
+            </LinearLayout>
+            <LinearLayout android:id="@+id/settingsPage" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+                <TextView android:id="@+id/profile" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingTop="20dp" android:paddingBottom="16dp" android:textSize="18sp" />
+                <Button android:id="@+id/bindChannel" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/bind_channel" />
+                <Button android:id="@+id/bindContact" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/bind_contact" />
+                <Button android:id="@+id/calibrate" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/calibrate" />
+                <Button android:id="@+id/reset" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/reset" />
+            </LinearLayout>
+            <LinearLayout android:id="@+id/diagnosticsPage" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+                <TextView android:id="@+id/report" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingTop="20dp" android:textSize="15sp" android:textIsSelectable="true" />
+                <Button android:id="@+id/inspect" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/inspect" />
+                <Button android:id="@+id/export" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/export" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
