@@ -25,6 +25,24 @@ class WhatsAppSelectorsTest {
     @Test fun canScrollForwardMeansNotAtBottom() {
         assertFalse(WhatsAppSelectors.read(channel(listOf(row("0/2/0", "11.31", 100)), true), 500, 1000, "com.whatsapp").atBottom)
     }
+    @Test fun singlePostWithoutScrollableFlagCanBeAtBottom() {
+        val tree = channel(listOf(row("0/2/0", "11.31", 100)))
+        val noScroll = tree.copy(children = tree.children.map { if (it.path == "0/2") it.copy(scrollable = false) else it })
+        assertTrue(WhatsAppSelectors.read(noScroll, 500, 1000, "com.whatsapp").atBottom)
+    }
+    @Test fun newerTextUpdateNeverFallsBackToOlderImage() {
+        val last = node("0/2/1", box = Box(0, 450, 500, 600), children = listOf(node("0/2/1/0", "barang habis 11.32")))
+        val s = WhatsAppSelectors.read(channel(listOf(row("0/2/0", "11.31", 100), last)), 500, 1000, "com.whatsapp")
+        assertFalse(s.atBottom); assertNull(s.post)
+    }
+    @Test fun viewCountDoesNotUnblockSamePost() {
+        fun withCounter(value: String): Screen {
+            val original = row("0/2/0", "11.31", 100)
+            val changed = original.copy(children = original.children + node("0/2/0/3", value))
+            return WhatsAppSelectors.read(channel(listOf(changed)), 500, 1000, "com.whatsapp")
+        }
+        assertEquals(withCounter("1").post?.identity, withCounter("2").post?.identity)
+    }
     @Test fun clippedLastPostIsRejected() {
         val screen = WhatsAppSelectors.read(channel(listOf(row("0/2/0", "11.31", 800))), 500, 1000, "com.whatsapp")
         assertFalse(screen.atBottom); assertNull(screen.post)

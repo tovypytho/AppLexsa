@@ -3,6 +3,7 @@ package com.tovypytho.applexsa
 import android.Manifest
 import android.content.ComponentName
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.view.View
 import android.widget.Button
 import androidx.test.core.app.ActivityScenario
@@ -12,6 +13,7 @@ import com.tovypytho.applexsa.automation.LexsaService
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.File
 
 @RunWith(AndroidJUnit4::class)
 class AppSmokeTest {
@@ -19,14 +21,31 @@ class AppSmokeTest {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
                 assertEquals(View.VISIBLE, activity.findViewById<View>(R.id.homePage).visibility)
+            }
+            screenshot("01-beranda")
+            scenario.onActivity { activity ->
                 activity.findViewById<Button>(R.id.settingsTab).performClick()
                 assertEquals(View.VISIBLE, activity.findViewById<View>(R.id.settingsPage).visibility)
+            }
+            screenshot("02-pengaturan")
+            scenario.onActivity { activity ->
                 activity.findViewById<Button>(R.id.diagnosticsTab).performClick()
                 assertEquals(View.VISIBLE, activity.findViewById<View>(R.id.diagnosticsPage).visibility)
             }
+            screenshot("03-diagnostik")
             scenario.recreate()
             scenario.onActivity { activity -> assertEquals(View.VISIBLE, activity.findViewById<View>(R.id.diagnosticsPage).visibility) }
         }
+    }
+    private fun screenshot(name: String) {
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        instrumentation.waitForIdleSync()
+        val file = File(instrumentation.targetContext.getExternalFilesDir(null), "screenshots/$name.png")
+        file.parentFile!!.mkdirs()
+        val bitmap = instrumentation.uiAutomation.takeScreenshot()
+        assertNotNull(bitmap)
+        file.outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
+        bitmap.recycle()
     }
     @Test fun manifestDoesNotRequestNetworkOrContactsAndServiceIsProtected() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext

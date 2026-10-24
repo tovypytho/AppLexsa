@@ -94,10 +94,14 @@ jobs:
           target: google_apis
           profile: pixel_6
           disable-animations: true
-          script: bash ./gradlew --no-daemon connectedDebugAndroidTest
+          script: |
+            bash ./gradlew --no-daemon connectedDebugAndroidTest
+            adb pull /sdcard/Android/data/com.tovypytho.applexsa/files/screenshots app/build/reports/screenshots
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: emulator-checks-${{ github.run_number }}
-          path: app/build/reports/androidTests/
+          path: |
+            app/build/reports/androidTests/
+            app/build/reports/screenshots/
           retention-days: 14

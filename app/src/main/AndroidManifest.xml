@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <queries><package android:name="com.whatsapp" /></queries>
-    <application android:allowBackup="false" android:label="@string/app_name"
+    <application android:allowBackup="false" android:dataExtractionRules="@xml/data_extraction_rules" android:label="@string/app_name"
         android:icon="@drawable/ic_lexsa" android:supportsRtl="true"
         android:theme="@style/Theme.AppLexsa">
         <activity android:name=".MainActivity" android:exported="true">
