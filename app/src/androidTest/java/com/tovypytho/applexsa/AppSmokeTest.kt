@@ -40,7 +40,7 @@ class AppSmokeTest {
     private fun screenshot(name: String) {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         instrumentation.waitForIdleSync()
-        val file = File(instrumentation.targetContext.getExternalFilesDir(null), "screenshots/$name.png")
+        val file = File(instrumentation.targetContext.cacheDir, "screenshots/$name.png")
         file.parentFile!!.mkdirs()
         val bitmap = instrumentation.uiAutomation.takeScreenshot()
         assertNotNull(bitmap)
